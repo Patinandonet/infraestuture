@@ -19,3 +19,8 @@ variable "zone" {
   type = string
   default = "europe-west1-b"
 }
+
+variable "network" {
+  type = string
+  default = "default"
+}

@@ -11,3 +11,15 @@ resource "google_storage_bucket" "cloud_ide_tfstate" {
 
   project = var.project
 }
+
+resource "google_compute_firewall" "cloud_ide_ports" {
+  name    = "cloud-ide-ports"
+  network = var.network
+  project = var.project
+  allow {
+    protocol = "tcp"
+    ports    = ["8000", "8080"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+  target_tags = ["code-server"]
+}
