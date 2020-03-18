@@ -26,23 +26,19 @@ resource "google_service_account_key" "cloud_ide_sa_key" {
   service_account_id = google_service_account.cloud_ide_sa.id
 }
 
-resource "google_project_iam_binding" "cloud_ide_binding" {
+resource "google_project_iam_member" "cloud_ide_binding" {
   for_each = var.cloud_ide_sa_role_binding
   project = var.project
   role    = data.google_iam_role.cloud_ide_sa_roles[each.key].id
 
-  members = [
-    "serviceAccount:${google_service_account.cloud_ide_sa.email}",
-  ]
+  member = "serviceAccount:${google_service_account.cloud_ide_sa.email}"
 }
 
-resource "google_project_iam_binding" "cloud_ide_update_binding" {
+resource "google_project_iam_member" "cloud_ide_update_binding" {
   project = var.project
   role    = google_project_iam_custom_role.storage_object_update_role.id
 
-  members = [
-    "serviceAccount:${google_service_account.cloud_ide_sa.email}",
-  ]
+  member = "serviceAccount:${google_service_account.cloud_ide_sa.email}"
 }
 
 variable "cloud_ide_sa_role_binding" {
@@ -51,7 +47,6 @@ variable "cloud_ide_sa_role_binding" {
     1 = "roles/compute.instanceAdmin.v1",
     2 = "roles/storage.admin",
     //2 = "roles/storage.objectCreator",
-    3 = "roles/storage.objectViewer",
   }
 }
 
