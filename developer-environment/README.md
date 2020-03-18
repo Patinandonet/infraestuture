@@ -14,4 +14,4 @@ Creamos una cuenta de servicio con los siguientes permisos:
 
 Service account workflow
 
-$ terraform output cloud_dev_ide_key
+$ terraform output cloud_ide_sa_key
