@@ -2,17 +2,28 @@ data "google_iam_role" "compute_viewer" {
   name = "roles/compute.viewer"
 }
 
-resource "google_project_iam_binding" "cesarmcristobal" {
-  project = var.project
-  role    = data.google_iam_role.compute_viewer.id
-
-  members = [
-    "user:cesarmcristobal@gmail.com",
+resource "google_project_iam_custom_role" "compute_viewer_tmp_role" {
+  role_id     = "compute.viewerTmp"
+  title       = "Compute instance viewer and executer"
+  description = "Role to view and execute compute instances"
+  permissions = [
+  for permission in data.google_iam_role.compute_viewer.included_permissions:
+  permission if permission != "resourcemanager.projects.list"
   ]
+  project = var.project
+}
 
- #condition {
- #  title       = "expires_after_2019_12_31"
- #  description = "Expiring at midnight of 2019-12-31"
- #  expression  = "request.time < timestamp(\"2020-01-01T00:00:00Z\")"
- #}
+resource "google_project_iam_custom_role" "compute_viewer_executer_role" {
+  role_id     = "compute.viewerExecuter"
+  title       = "Compute instance viewer and executer"
+  description = "Role to view and execute compute instances"
+  permissions = concat(sort(google_project_iam_custom_role.compute_viewer_tmp_role.permissions), ["compute.instances.setMetadata", "iam.serviceAccounts.actAs"])
+  project = var.project
+}
+
+resource "google_project_iam_member" "cesarmcristobal" {
+  project = var.project
+  role    = google_project_iam_custom_role.compute_viewer_executer_role.id
+
+  member = "user:cesarmcristobal@gmail.com"
 }
