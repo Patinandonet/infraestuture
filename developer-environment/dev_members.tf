@@ -21,9 +21,18 @@ resource "google_project_iam_custom_role" "compute_viewer_executer_role" {
   project = var.project
 }
 
-resource "google_project_iam_member" "cesarmcristobal" {
+resource "google_project_iam_member" "compute_viewer_executer_members" {
+  for_each = var.members
   project = var.project
   role    = google_project_iam_custom_role.compute_viewer_executer_role.id
 
-  member = "user:cesarmcristobal@gmail.com"
+  member = "user:${each.value}"
+}
+
+variable "members" {
+  type = map(string)
+  default = {
+    0 = "danielgraindorge@gmail.com",
+    1 = "xcorpio58@gmail.com",
+  }
 }
