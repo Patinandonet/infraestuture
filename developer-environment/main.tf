@@ -7,7 +7,10 @@ provider "google-beta" {
 module "dev_members" {
   source = "../modules/dev-members"
   project = var.project
-  members = var.members
+  members = {
+    0 = "danielgraindorge@gmail.com",
+    1 = "xcorpio58@gmail.com",
+  }
 }
 
 resource "google_storage_bucket" "cloud_ide_tfstate" {

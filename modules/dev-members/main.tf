@@ -2,22 +2,18 @@ data "google_iam_role" "compute_viewer" {
   name = "roles/compute.viewer"
 }
 
-resource "google_project_iam_custom_role" "compute_viewer_tmp_role" {
-  role_id     = "compute.viewerTmp"
-  title       = "Compute instance viewer and executer"
-  description = "Role to view and execute compute instances"
-  permissions = [
+locals {
+  compute_viewer_fix_permissions = [
   for permission in data.google_iam_role.compute_viewer.included_permissions:
   permission if permission != "resourcemanager.projects.list"
   ]
-  project = var.project
 }
 
 resource "google_project_iam_custom_role" "compute_viewer_executer_role" {
   role_id     = "compute.viewerExecuter"
   title       = "Compute instance viewer and executer"
   description = "Role to view and execute compute instances"
-  permissions = concat(sort(google_project_iam_custom_role.compute_viewer_tmp_role.permissions), ["compute.instances.setMetadata", "iam.serviceAccounts.actAs"])
+  permissions = concat(sort(local.compute_viewer_fix_permissions), ["compute.instances.setMetadata", "iam.serviceAccounts.actAs"])
   project = var.project
 }
 
