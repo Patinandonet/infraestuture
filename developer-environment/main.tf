@@ -4,6 +4,12 @@ provider "google-beta" {
   credentials = var.credentials
 }
 
+module "dev_members" {
+  source = "../modules/dev-members"
+  project = var.project
+  members = var.members
+}
+
 resource "google_storage_bucket" "cloud_ide_tfstate" {
   name          = "patinando-developer-environment-cloud-ide-tfstate"
   location      = "EU"

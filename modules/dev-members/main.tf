@@ -28,11 +28,3 @@ resource "google_project_iam_member" "compute_viewer_executer_members" {
 
   member = "user:${each.value}"
 }
-
-variable "members" {
-  type = map(string)
-  default = {
-    0 = "danielgraindorge@gmail.com",
-    1 = "xcorpio58@gmail.com",
-  }
-}
