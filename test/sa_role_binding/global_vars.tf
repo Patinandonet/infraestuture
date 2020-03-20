@@ -1,0 +1,1 @@
+../../developer-environment/global_vars.tf

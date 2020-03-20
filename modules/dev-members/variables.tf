@@ -1,7 +1,7 @@
-variable "members" {
-  type = map(string)
-}
-
 variable "project" {
   type = string
+}
+
+variable "members" {
+  type = map(string)
 }
