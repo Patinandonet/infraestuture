@@ -13,7 +13,15 @@ resource "google_project_iam_custom_role" "compute_viewer_executer_role" {
   role_id     = "compute.viewerExecuter"
   title       = "Compute instance viewer and executer"
   description = "Role to view and execute compute instances"
-  permissions = concat(sort(local.compute_viewer_fix_permissions), ["compute.instances.setMetadata", "iam.serviceAccounts.actAs"])
+  permissions = concat(sort(local.compute_viewer_fix_permissions), [
+    "compute.instances.setMetadata",
+    "iam.serviceAccounts.actAs",
+    "compute.instances.stop",
+    "compute.instances.suspend",
+    "compute.instances.reset",
+    "compute.instances.resume",
+    "compute.instances.start",
+  ])
   project = var.project
 }
 
