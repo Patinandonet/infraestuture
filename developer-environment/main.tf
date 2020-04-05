@@ -15,7 +15,7 @@ module "dev_members" {
   members = {
     0 = "danielgraindorge@gmail.com",
     1 = "xcorpio58@gmail.com",
-    2 = "cesarmcristobal@gmail.com",
+    2 = "rubenjai@gmail.com",
   }
 }
 
