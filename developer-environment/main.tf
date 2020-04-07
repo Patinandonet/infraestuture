@@ -57,3 +57,16 @@ resource "google_compute_firewall" "cloud_ide_ports" {
   source_ranges = ["0.0.0.0/0"]
   target_tags = ["code-server"]
 }
+
+locals {
+  github_secrets = {
+    IDE_PROJECT_ID = var.project
+    REGION = var.region
+    IDE_SA_EMAIL = module.cloud_ide_sa.sa_email
+    IDE_SA_KEY = module.cloud_ide_sa.sa_key_code
+  }
+}
+
+output "api_secrets" {
+  value = local.github_secrets
+}

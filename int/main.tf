@@ -42,19 +42,22 @@ output "ci_ci_sa_key" {
 */
 
 locals {
-  api_secrets = {
+  github_secrets = {
     INT_PROJECT_ID = var.project
     REGION = var.region
-    SA_EMAIL = module.ci_ci_sa.sa_email
-    SA_KEY = module.ci_ci_sa.sa_key_code
+    INT_SA_EMAIL = module.ci_ci_sa.sa_email
+    INT_SA_KEY = module.ci_ci_sa.sa_key_code
   }
 }
 resource "github_actions_secret" "api" {
-  for_each = local.api_secrets
+  for_each = local.github_secrets
   provider = github
   repository = "patinandonet-web-api"
   secret_name      = each.key
   plaintext_value  = each.value
+}
+output "api_secrets" {
+  value = local.github_secrets
 }
 
 /*
