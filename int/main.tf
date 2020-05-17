@@ -49,6 +49,18 @@ locals {
     INT_SA_KEY = module.ci_ci_sa.sa_key_code
   }
 }
+output "api_secrets" {
+  value = local.github_secrets
+}
+
+resource "github_actions_secret" "front" {
+  for_each = local.github_secrets
+  provider = github
+  repository = "patinandonet-web-front"
+  secret_name      = each.key
+  plaintext_value  = each.value
+}
+
 resource "github_actions_secret" "api" {
   for_each = local.github_secrets
   provider = github
@@ -56,8 +68,13 @@ resource "github_actions_secret" "api" {
   secret_name      = each.key
   plaintext_value  = each.value
 }
-output "api_secrets" {
-  value = local.github_secrets
+
+resource "github_actions_secret" "edge" {
+  for_each = local.github_secrets
+  provider = github
+  repository = "patinandonet-web-edge"
+  secret_name      = each.key
+  plaintext_value  = each.value
 }
 
 /*
