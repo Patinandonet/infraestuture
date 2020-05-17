@@ -1,0 +1,3 @@
+.terraform
+.google_credentials.env
+.idea
