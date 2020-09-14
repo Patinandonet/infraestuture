@@ -1,22 +1,22 @@
-terraform {
-  required_version  = "=0.12.24"
-}
-
-variable "project" {
-  type = string
+/*
+** Variables
+*/
+variable "organization" {
+  type    = string
+  default = "271483114299"
 }
 
 variable "region" {
-  type = string
+  type    = string
   default = "europe-west1"
 }
 
 variable "zone" {
-  type = string
+  type    = string
   default = "europe-west1-b"
 }
 
 variable "network" {
-  type = string
+  type    = string
   default = "default"
 }

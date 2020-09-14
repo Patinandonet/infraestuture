@@ -3,7 +3,7 @@ variable "project" {
 }
 
 variable "sa_role_binding" {
-  type = map(string)
+  type = list(string)
 }
 
 variable "sa_account_id" {

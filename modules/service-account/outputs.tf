@@ -1,14 +1,14 @@
-output "sa_key_decode" {
+output "key_decode" {
   sensitive = true
-  value = base64decode(google_service_account_key.sa_key.private_key)
+  value = base64decode(google_service_account_key.this.private_key)
 }
 
-output "sa_key_code" {
+output "key_code" {
   sensitive = true
-  value = google_service_account_key.sa_key.private_key
+  value = google_service_account_key.this.private_key
 }
 
-output "sa_email" {
+output "email" {
   sensitive = true
-  value = google_service_account.sa.email
+  value = google_service_account.this.email
 }

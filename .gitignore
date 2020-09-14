@@ -1,3 +1,6 @@
 .terraform
 .google_credentials.env
 .idea
+terraform.tfstate
+terraform.tfstate*
+.terraformrc
