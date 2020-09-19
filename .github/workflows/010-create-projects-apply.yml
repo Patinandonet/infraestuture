@@ -36,8 +36,8 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: ${{ github.event.inputs.run_id }}.plan
+          name: ${{ github.event.inputs.run_id }}
 
       - name: Terraform Init
         id: init
-        run: terraform apply ${{ github.event.inputs.run_id }}.plan -auto-approve
+        run: terraform apply ${{ github.event.inputs.run_id }} -auto-approve
