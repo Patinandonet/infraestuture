@@ -1,5 +1,5 @@
 /*
-** Resources
+** GCP Resources
 */
 resource "google_project" "this" {
   name            = "patinando-net-terraform-admin"
@@ -46,14 +46,12 @@ resource "google_organization_iam_member" "this" {
   depends_on = [module.sa_create_project]
 }
 
-resource "tfe_organization" "this" {
-  name  = "patinando-net"
-  email = "cesar@patinando.net"
-}
-
+/*
+** TF Resources
+*/
 resource "tfe_workspace" "this" {
   name                  = "010-create-projects"
-  organization          = tfe_organization.this.name
+  organization          = var.tfe_organization
   file_triggers_enabled = false
   queue_all_runs        = false
 }
@@ -64,4 +62,22 @@ resource "tfe_variable" "gcp_credentials" {
   category     = "env"
   workspace_id = tfe_workspace.this.id
   sensitive    = true
+}
+
+resource "tfe_organization_token" "this" {
+  organization = var.tfe_organization
+}
+
+/*
+** Github Resources
+*/
+provider "github" {
+  organization = "patinando"
+}
+
+resource "github_actions_secret" "token" {
+  provider        = github
+  repository      = "infraestuture"
+  secret_name     = "CREATE_PROJECTS_TF_API_TOKEN"
+  plaintext_value = tfe_organization_token.this.token
 }
