@@ -6,6 +6,11 @@ variable "organization" {
   default = "271483114299"
 }
 
+variable "billing_account" {
+  type = string
+  default = "011246-73A7E5-B8EB71"
+}
+
 variable "region" {
   type    = string
   default = "europe-west1"
