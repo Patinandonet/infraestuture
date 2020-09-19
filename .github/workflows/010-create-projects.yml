@@ -25,17 +25,17 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform
 
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color -out=${{ env.GITHUB_RUN_ID }}
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: ${{ env.GITHUB_RUN_ID }}
+#      - name: Terraform Validate
+#        id: validate
+#        run: terraform validate -no-color
+#
+#      - name: Terraform Plan
+#        id: plan
+#        run: terraform plan -no-color -out=${{ env.GITHUB_RUN_ID }}
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: my-artifact
+#          path: ${{ env.GITHUB_RUN_ID }}
