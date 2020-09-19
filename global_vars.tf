@@ -1,5 +1,5 @@
 /*
-** Variables
+** GCP Variables
 */
 variable "organization" {
   type    = string
@@ -7,7 +7,7 @@ variable "organization" {
 }
 
 variable "billing_account" {
-  type = string
+  type    = string
   default = "011246-73A7E5-B8EB71"
 }
 
@@ -24,4 +24,12 @@ variable "zone" {
 variable "network" {
   type    = string
   default = "default"
+}
+
+/*
+** TF Variables
+*/
+variable "tfe_organization" {
+  type    = string
+  default = "patinando-net"
 }

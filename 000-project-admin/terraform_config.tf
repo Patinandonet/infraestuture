@@ -11,6 +11,10 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 3.38.0"
     }
+    github = {
+      source  = "hashicorp/github"
+      version = "~> 3.0.0"
+    }
   }
   backend "remote" {
     organization = "patinando-net"
