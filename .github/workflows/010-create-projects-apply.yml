@@ -1,6 +1,10 @@
 name: Apply create projects
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'GITHUB_RUN_ID to apply'
+        required: true
 
 jobs:
   apply-action:
@@ -8,3 +12,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.2
+          cli_config_credentials_token: ${{ secrets.CREATE_PROJECTS_TF_API_TOKEN }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.event.inputs.run_id }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform apply ${{ github.event.inputs.run_id }} -auto-approve
