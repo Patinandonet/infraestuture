@@ -5,8 +5,30 @@ on:
       - '*'
 
 jobs:
-  test-action:
+  plan-action:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.2
+          cli_config_credentials_token: ${{ secrets.010_CREATE_PROJECTS_TF_API_TOKEN }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -out=${{ env.GITHUB_RUN_ID }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ${{ env.GITHUB_RUN_ID }}
