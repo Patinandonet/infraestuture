@@ -1,6 +1,10 @@
 name: Apply create projects
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'GITHUB_RUN_ID to apply'
+        required: true
 
 defaults:
   run:
@@ -23,6 +27,10 @@ jobs:
         id: init
         run: terraform init
 
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.event.inputs.run_id }}
+
       - name: Terraform Init
         id: init
-        run: terraform apply -auto-approve
+        run: terraform apply ${{ github.event.inputs.run_id }} -auto-approve
