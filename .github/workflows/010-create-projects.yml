@@ -23,9 +23,11 @@ jobs:
           terraform_version: 0.13.2
           cli_config_credentials_token: ${{ secrets.CREATE_PROJECTS_TF_API_TOKEN }}
 
+      - run: terraform --version
+      - run: ls -la
       - name: Terraform Init
         id: init
-        run: terraform
+        run: terraform init
 
 #      - name: Terraform Validate
 #        id: validate
