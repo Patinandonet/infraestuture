@@ -1,6 +1,10 @@
 name: Plan create projects
 on:
   push:
+    paths:
+      - '010-create-projects'
+      - '.github/workflows/010-create-projects.yml'
+      - '.github/workflows/010-create-projects-apply.yml'
     branches:
       - '*'
 
@@ -10,6 +14,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Use the path
+        run: cd 010-create-projects
 
       - uses: hashicorp/setup-terraform@v1
         with:
