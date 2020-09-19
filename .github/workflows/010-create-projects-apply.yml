@@ -18,6 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_email: ${{ secrets.CREATE_PROJECTS_GCP_EMAIL }}
+          service_account_key: ${{ secrets.CREATE_PROJECTS_GCP_KEY }}
+          export_default_credentials: true
+
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.13.2
