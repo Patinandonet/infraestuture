@@ -1,8 +1,6 @@
-name: Plan create projects
+name: Apply create projects
 on:
-  push:
-    branches:
-      - '*'
+  workflow_dispatch
 
 jobs:
   test-action:
