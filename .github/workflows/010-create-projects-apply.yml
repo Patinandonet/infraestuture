@@ -39,6 +39,7 @@ jobs:
         with:
           workflow: 010-create-projects.yml
           name: ${{ github.event.inputs.run_id }}
+          path: 010-create-projects
 
       - name: Terraform Apply
         id: apply
