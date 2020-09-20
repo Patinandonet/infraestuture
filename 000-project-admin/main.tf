@@ -54,18 +54,16 @@ resource "tfe_workspace" "this" {
   organization          = var.tfe_organization
   file_triggers_enabled = false
   queue_all_runs        = false
+  operations            = false
 }
 
-resource "tfe_variable" "gcp_credentials" {
-  key          = "GOOGLE_CREDENTIALS"
-  value        = replace(module.sa_create_project.key_decode, "\n", "")
-  category     = "env"
-  workspace_id = tfe_workspace.this.id
-  sensitive    = true
-}
-
-resource "tfe_organization_token" "this" {
+data "tfe_team" "this" {
+  name         = "owners"
   organization = var.tfe_organization
+}
+
+resource "tfe_team_token" "this" {
+  team_id = data.tfe_team.this.id
 }
 
 /*
@@ -79,5 +77,19 @@ resource "github_actions_secret" "token" {
   provider        = github
   repository      = "infraestuture"
   secret_name     = "CREATE_PROJECTS_TF_API_TOKEN"
-  plaintext_value = tfe_organization_token.this.token
+  plaintext_value = tfe_team_token.this.token
+}
+
+resource "github_actions_secret" "key" {
+  provider        = github
+  repository      = "infraestuture"
+  secret_name     = "CREATE_PROJECTS_GCP_KEY"
+  plaintext_value = module.sa_create_project.key_code
+}
+
+resource "github_actions_secret" "email" {
+  provider        = github
+  repository      = "infraestuture"
+  secret_name     = "CREATE_PROJECTS_GCP_EMAIL"
+  plaintext_value = module.sa_create_project.email
 }
