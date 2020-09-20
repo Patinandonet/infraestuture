@@ -42,4 +42,4 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply ${{ github.event.inputs.run_id }} -auto-approve
+        run: terraform apply ${{ github.event.inputs.run_id }}

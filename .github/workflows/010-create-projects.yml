@@ -4,9 +4,8 @@ on:
     paths:
       - '010-create-projects/*'
       - '.github/workflows/010-create-projects.yml'
-      - '.github/workflows/010-create-projects-apply.yml'
     branches:
-      - '*'
+      - 'master'
 
 defaults:
   run:
