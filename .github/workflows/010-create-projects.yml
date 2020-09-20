@@ -4,9 +4,8 @@ on:
     paths:
       - '010-create-projects/*'
       - '.github/workflows/010-create-projects.yml'
-      - '.github/workflows/010-create-projects-apply.yml'
     branches:
-      - '*'
+      - 'master'
 
 defaults:
   run:
@@ -41,13 +40,11 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - run: mkdir plan
-
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -out=plan/${{ github.run_id }}.txt
-      - run: ls plan
+        run: terraform plan -no-color -out=${{ github.run_id }}
+
       - uses: actions/upload-artifact@v2
         with:
           name: ${{ github.run_id }}
-          path: plan
+          path: 010-create-projects/${{ github.run_id }}
