@@ -34,10 +34,13 @@ jobs:
         id: init
         run: terraform init
 
-      - uses: actions/download-artifact@v2
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
         with:
+          workflow: 010-create-projects.yml
           name: ${{ github.event.inputs.run_id }}
+          path: 010-create-projects
 
-      - name: Terraform Init
-        id: init
-        run: terraform apply ${{ github.event.inputs.run_id }}.txt -auto-approve
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply ${{ github.event.inputs.run_id }}
