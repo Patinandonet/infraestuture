@@ -38,6 +38,6 @@ jobs:
         with:
           name: ${{ github.event.inputs.run_id }}
 
-      - name: Terraform Init
-        id: init
+      - name: Terraform Apply
+        id: apply
         run: terraform apply ${{ github.event.inputs.run_id }} -auto-approve
