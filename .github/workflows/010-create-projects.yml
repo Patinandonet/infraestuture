@@ -41,13 +41,11 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - run: mkdir plan
-
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -out=plan/${{ github.run_id }}.txt
+        run: terraform plan -no-color -out=${{ github.run_id }}
 
       - uses: actions/upload-artifact@v2
         with:
           name: ${{ github.run_id }}
-          path: '*'
+          path: 010-create-projects/${{ github.run_id }}

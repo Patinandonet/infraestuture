@@ -40,4 +40,4 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform apply ${{ github.event.inputs.run_id }}.txt -auto-approve
+        run: terraform apply ${{ github.event.inputs.run_id }} -auto-approve
