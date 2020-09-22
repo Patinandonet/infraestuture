@@ -50,7 +50,9 @@ resource "google_organization_iam_member" "this" {
 ** TF Resources
 */
 resource "tfe_workspace" "this" {
-  name                  = "010-create-projects"
+  for_each = zipmap(var.environments, var.environments)
+
+  name                  = "010-environment-${each.value}"
   organization          = var.tfe_organization
   file_triggers_enabled = false
   queue_all_runs        = false
@@ -76,20 +78,20 @@ provider "github" {
 resource "github_actions_secret" "token" {
   provider        = github
   repository      = "infraestuture"
-  secret_name     = "CREATE_PROJECTS_TF_API_TOKEN"
+  secret_name     = "CREATE_ENVIRONMENT_TF_API_TOKEN"
   plaintext_value = tfe_team_token.this.token
 }
 
 resource "github_actions_secret" "key" {
   provider        = github
   repository      = "infraestuture"
-  secret_name     = "CREATE_PROJECTS_GCP_KEY"
+  secret_name     = "CREATE_ENVIRONMENT_GCP_KEY"
   plaintext_value = module.sa_create_project.key_code
 }
 
 resource "github_actions_secret" "email" {
   provider        = github
   repository      = "infraestuture"
-  secret_name     = "CREATE_PROJECTS_GCP_EMAIL"
+  secret_name     = "CREATE_ENVIRONMENT_GCP_EMAIL"
   plaintext_value = module.sa_create_project.email
 }
