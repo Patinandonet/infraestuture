@@ -2,16 +2,15 @@ name: Plan create projects
 on:
   push:
     paths:
-      - '010-create-projects/*'
+      - '010-environment/*'
       - '.github/workflows/010-create-projects.yml'
     branches:
-      - 'master'
+      - '*'
 
 defaults:
   run:
     shell: bash
-    working-directory: 010-create-projects
-
+    working-directory: 010-environment
 
 jobs:
   plan-action:
@@ -23,14 +22,14 @@ jobs:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
-          service_account_email: ${{ secrets.CREATE_PROJECTS_GCP_EMAIL }}
-          service_account_key: ${{ secrets.CREATE_PROJECTS_GCP_KEY }}
+          service_account_email: ${{ secrets.CREATE_ENVIRONMENT_GCP_EMAIL }}
+          service_account_key: ${{ secrets.CREATE_ENVIRONMENT_GCP_KEY }}
           export_default_credentials: true
 
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.13.2
-          cli_config_credentials_token: ${{ secrets.CREATE_PROJECTS_TF_API_TOKEN }}
+          cli_config_credentials_token: ${{ secrets.CREATE_ENVIRONMENT_TF_API_TOKEN }}
 
       - name: Terraform Init
         id: init
@@ -47,4 +46,38 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: ${{ github.run_id }}
-          path: 010-create-projects/${{ github.run_id }}
+          path: 010-environment/${{ github.run_id }}
+
+  apply-action:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_email: ${{ secrets.CREATE_ENVIRONMENT_GCP_EMAIL }}
+          service_account_key: ${{ secrets.CREATE_ENVIRONMENT_GCP_KEY }}
+          export_default_credentials: true
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.2
+          cli_config_credentials_token: ${{ secrets.CREATE_ENVIRONMENT_TF_API_TOKEN }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: 010-create-projects.yml
+          name: ${{ github.run_id }}
+          path: 010-environment
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply ${{ github.run_id }}

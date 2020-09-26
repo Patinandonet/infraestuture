@@ -6,7 +6,8 @@ resource "google_storage_bucket" "this" {
   project = var.project
 }
 
-resource "google_storage_default_object_acl" "this" {
-  bucket      = google_storage_bucket.this.name
-  role_entity = ["READER:allUsers"]
+resource "google_storage_bucket_access_control" "public_rule" {
+  bucket = google_storage_bucket.this.name
+  role   = "roles/storage.objectViewer"
+  entity = "allUsers"
 }

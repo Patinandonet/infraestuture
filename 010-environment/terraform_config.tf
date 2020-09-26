@@ -20,7 +20,7 @@ terraform {
     organization = "patinando-net"
 
     workspaces {
-      name = "010-create-projects"
+      name = "010-environment-test"
     }
   }
 }

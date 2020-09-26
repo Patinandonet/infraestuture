@@ -1,1 +1,0 @@
-project = "patinando-net-int"

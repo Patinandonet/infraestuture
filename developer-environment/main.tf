@@ -62,8 +62,8 @@ locals {
   github_secrets = {
     IDE_PROJECT_ID = var.project
     REGION = var.region
-    IDE_SA_EMAIL = module.cloud_ide_sa.sa_email
-    IDE_SA_KEY = module.cloud_ide_sa.sa_key_code
+    IDE_SA_EMAIL = module.cloud_ide_sa.email
+    IDE_SA_KEY = module.cloud_ide_sa.key_code
   }
 }
 

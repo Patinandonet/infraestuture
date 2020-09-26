@@ -1,6 +1,0 @@
-/*
-** Config
-*/
-terraform {
-  backend "remote" {}
-}
